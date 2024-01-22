@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --page-height: max(100vh, 700px);
+}
+
+body {
+  width: 100vw;
+  height: var(--page-height);
+  margin: 0;
+}
+
+header {
+  
+}
