@@ -3,7 +3,7 @@
 
 * {
   box-sizing: border-box;
-  /* border: 0.5px solid red; */
+  border: 0.5px solid red;
   margin: 0;
 }
 
@@ -24,6 +24,11 @@ body {
   height: var( --page-height );
   margin: 0;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
 /*}}}*/
 
 /* SECTION {{{*/
@@ -45,10 +50,6 @@ section h1 {
 
 section p {
   font-size: clamp( 1.1rem, 1.8vw, 1.8rem );
-}
-
-section p.hidden {
-  visibility: hidden;
 }
 
 section button {
@@ -91,6 +92,7 @@ main div.card-container {
 
 /* MAIN - CARDS {{{*/
 main div.card {
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: var( --card-color );
@@ -102,6 +104,17 @@ main div.card {
   padding: 1rem;
 }
 
+main div.card div.new {
+  position: absolute;
+  top: 0.5rem;
+  left: 83%;
+  background-color: gold;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 2.5rem;
+  height: 1.2rem;
+
+}
 main div.card p {
   margin-bottom: 0.5rem;
 }
@@ -109,6 +122,7 @@ main div.card p {
 main div.card p.title {
   font-weight: 600;
   font-size: 1.2rem;
+  width: 75%;
   height: 3rem;
   margin-bottom: 0.7rem;
 }
@@ -151,19 +165,20 @@ main div.card div.action div.status.hovered {
   background-color: gold;
 }
 
-main div.card div.action div.trash {
+main div.card div.action img.trash {
   cursor: pointer;
-  background-image: url( "./trash.svg" );
   width: 1.3rem;
   height: 1.3rem;
   margin-top: 0.5vh;
   margin-left: auto;
+  margin-right: 0.5rem;
   transition: 0.2s;
 }
 
-main div.card div.action div.trash:hover {
+main div.card div.action img.trash:hover {
   width: 1.5rem;
   height: 1.5rem;
+  margin-right: 0.4rem;
 }
 /*}}}*/
 /*}}}*/
