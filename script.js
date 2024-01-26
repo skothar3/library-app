@@ -2,8 +2,11 @@
 const addBookBtn = document.querySelector( "button" );
 const addBookP = document.querySelector( "p.hidden" );
 const containerDiv = document.querySelector( "div.card-container" );
+const sortSelect = document.getElementById( "sort-by" );
 const myLibrary = [];
+let sortStyle = 'author';
 
+// VARIABLES - BOOKS {{{
 const theHobbit = new Book(
 "The Hobbit",
 "J. R. R. Tolkien",
@@ -42,11 +45,12 @@ const daVinciCode = new Book(
 450,
 'yes',
 false
-);
+);//}}}
 //}}}
 
 // FUNCTIONS {{{
-function Book( title, author, pages, isRead, isNew) {
+
+function Book( title, author, pages, isRead, isNew ) {//{{{
   this.title = title;
   this.author = author;
   this.pages = pages;
@@ -58,13 +62,13 @@ function Book( title, author, pages, isRead, isNew) {
       this.isRead ? "read" : "not read yet"
     }.`;
   };
-}
+}//}}}
 
-Book.prototype.toggleRead = function () {
+Book.prototype.toggleRead = function () {//{{{
   this.isRead = !this.isRead;
-}
+}//}}}
 
-function addBook() {
+function addBook() {//{{{
   const prompts = [
     "Enter the book title",
     "Enter the book author",
@@ -99,28 +103,57 @@ function addBook() {
       alert( "This book is already in your library!" )
     }
   }
-}
+}//}}}
 
-function removeBook( index ) {
+function removeBook( index ) {//{{{
   myLibrary.splice( index, 1 );
   updateGrid();
-};
+};//}}}
 
-function updateGrid() {
-  const myLibraryCards = [];
+function sortLibrary(sortBy) {//{{{
 
   myLibrary.sort( ( a, b ) => {
-    const authorA = a.author.toUpperCase();
-    const authorB = b.author.toUpperCase();
-    
-    if ( authorA < authorB ) {
-      return -1;
-    } else if ( authorA > authorB ) {
-      return 1;
+    let A;
+    let B;
+    if (sortBy === "author" || sortBy === "title") {
+      if (sortBy === "author") {
+	A = a.author.toUpperCase();
+	B = b.author.toUpperCase();
+      } else {
+	A = a.title.toUpperCase();
+	B = b.title.toUpperCase();
+      }
+
+      if ( A < B ) return -1;
+      if ( A > B ) return 1;
+      return 0;
+    } else if (sortBy === "read" || sortBy === "unread") {
+      A = a.isRead;
+      B = b.isRead;
+      
+      if (sortBy === "read") {
+	if ( A > B ) return -1;
+	if ( A < B ) return 1;
+	return 0;
+      } else {
+	if ( A < B ) return -1;
+	if ( A > B ) return 1;
+	return 0;
+      }
+    } else if (sortBy === "new") {
+      A = a.isNew;
+      B = b.isNew;
+
+      if ( A > B ) return -1;
+      if ( A < B ) return 1;
+      return 0;
     }
-    
-    return 0;
   } );
+};//}}}
+
+function updateGrid() {//{{{
+  const myLibraryCards = [];
+  sortLibrary(sortStyle);
 
   myLibrary.forEach( ( book, index ) => {
     const card = document.createElement( "div" );
@@ -188,15 +221,19 @@ function updateGrid() {
       }
       this.classList.remove( "hovered" );
       book.toggleRead();
+      updateGrid();
     } );
     
-    trash.addEventListener( "click", () => removeBook( index )  );
+    trash.addEventListener( "click", () => {
+      removeBook( index );
+    } );
     
     myLibraryCards.push(card);
   } )
 
   containerDiv.replaceChildren(...myLibraryCards);
-};
+};//}}}
+
 //}}}
 
 // LISTENERS {{{
@@ -206,6 +243,10 @@ addBookBtn.addEventListener( "mouseenter", () => addBookP.classList.remove( "hid
 
 addBookBtn.addEventListener( "mouseleave", () => addBookP.classList.add( "hidden" ) );
 
+sortSelect.addEventListener( "change", function () {
+  sortStyle = this.value;
+  updateGrid();
+});
 //}}}
 
 myLibrary.push( theHobbit );
