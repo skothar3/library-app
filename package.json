@@ -1,0 +1,22 @@
+{
+  "name": "library-app",
+  "version": "1.0.0",
+  "description": "This app lets a user create a basic book library",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skothar3/library-app.git"
+  },
+  "author": "skothar3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skothar3/library-app/issues"
+  },
+  "homepage": "https://github.com/skothar3/library-app#readme",
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
