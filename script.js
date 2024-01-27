@@ -189,7 +189,8 @@ function updateGrid() {//{{{
     author.classList.add( "author" );
     pages.classList.add( "pages" );
     actionContainer.classList.add( "action" );
-    readStatusSign.classList.add( "status" );
+    readStatus.classList.add("read-status");
+    readStatusSign.classList.add( "read-status-sign" );
     trash.classList.add( "trash" );
     if ( book.isRead ) {
       readStatusSign.classList.add( "read" );
@@ -214,10 +215,10 @@ function updateGrid() {//{{{
     readStatusSign.addEventListener( "click", function () {
       if ( this.classList.contains( "read" ) ) {
 	this.classList.remove( "read" );
-	this.parentElement.childNodes[1].textContent = "Not read yet " ;
+	this.parentElement.getElementsByClassName("read-status").textContent = "Not read yet " ;
       } else {
 	this.classList.add( "read" );
-	this.parentElement.childNodes[1].textContent = "Read " ;
+	this.parentElement.getElementsByClassName("read-status").textContent = "Read " ;
       }
       this.classList.remove( "hovered" );
       book.toggleRead();

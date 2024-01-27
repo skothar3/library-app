@@ -159,7 +159,7 @@ main div.card div.action p {
   margin: 0;
 }
 
-main div.card div.action div.status {
+main div.card div.action div.read-status-sign {
   cursor: pointer;
   background-color: red;
   border-radius: 24px;
@@ -169,11 +169,11 @@ main div.card div.action div.status {
   transition: 0.2s;
 }
 
-main div.card div.action div.status.read {
+main div.card div.action div.read-status-sign.read {
   background-color: green;
 }
 
-main div.card div.action div.status.hovered {
+main div.card div.action div.read-status-sign.hovered {
   background-color: gold;
 }
 
