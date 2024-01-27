@@ -4,7 +4,7 @@ const addBookP = document.querySelector( "p.hidden" );
 const containerDiv = document.querySelector( "div.card-container" );
 const sortSelect = document.getElementById( "sort-by" );
 const myLibrary = [];
-let sortStyle = 'author';
+let sortStyle = sortSelect.value;
 
 // VARIABLES - BOOKS {{{
 const theHobbit = new Book(
@@ -194,9 +194,9 @@ function updateGrid() {//{{{
     trash.classList.add( "trash" );
     if ( book.isRead ) {
       readStatusSign.classList.add( "read" );
-      readStatus.textContent = "Read ";
+      readStatus.textContent = "Read";
     } else {
-      readStatus.textContent = "Not read yet ";
+      readStatus.textContent = "Not read yet";
     }
     if ( !book.isNew ) {
       newTag.classList.add( "hidden" );
@@ -215,10 +215,10 @@ function updateGrid() {//{{{
     readStatusSign.addEventListener( "click", function () {
       if ( this.classList.contains( "read" ) ) {
 	this.classList.remove( "read" );
-	this.parentElement.getElementsByClassName("read-status").textContent = "Not read yet " ;
+	this.parentElement.getElementsByClassName("read-status").textContent = "Not read yet" ;
       } else {
 	this.classList.add( "read" );
-	this.parentElement.getElementsByClassName("read-status").textContent = "Read " ;
+	this.parentElement.getElementsByClassName("read-status").textContent = "Read" ;
       }
       this.classList.remove( "hovered" );
       book.toggleRead();
