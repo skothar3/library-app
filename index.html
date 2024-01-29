@@ -1,36 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Library App</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <section>
-    <div id="welcome">
-      <h1>Welcome to your library!</h1>
-      <button>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z" /></svg>
-      </button>
-      <p class="hidden">New book</p>
-    </div>
-    <div id="sort-container">
-      <label for="sort-by">Sort by:</label>
-      <select id="sort-by" name="sort-by">
-        <option value="author">Author</option>
-        <option value="title">Title</option>
-        <option value="read">Read</option>
-        <option value="unread">Unread</option>
-        <option value="new">New</option>
-      </select>
-    </div>
-  </section>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Library App</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    
+    <header>
+      <div id="welcome">
+        <h1>Welcome to your library!</h1>
+        <button>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z"
+            />
+          </svg>
+        </button>
+        <p class="hidden">New book</p>
+      </div>
+      <div id="sort-container">
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by" name="sort-by">
+          <option value="author">Author</option>
+          <option value="title">Title</option>
+          <option value="read">Read</option>
+          <option value="unread">Unread</option>
+          <option value="new">New</option>
+        </select>
+      </div>
+    </header>
 
-  <main>
-    <div class="card-container">
+    <dialog>
+      <form action="">
+	<p class="form-element-container">
+	  <label for="title">Title:</label>
+	  <input id="title" class="to-validate" type="text" name="title" minlength="1" required>
+	</p>
+	<p class="form-element-container">
+	  <label for="author">Author:</label>
+	  <input id="author" class="to-validate" type="text" name="author" minlength="2" required>
+	</p>
+	<p class="form-element-container">
+	  <label for="pages"># Pages:</label>
+	  <input id="pages" class="to-validate" type="text" name="pages" minlength="1" pattern="\d{1,9}" required>
+	</p>
+	<fieldset>
+	  <legend>Have you read it yet?</legend>
+	  <div class="radios">
+	    <p class="radio-button-container">
+	      <label for="choice2">Yes</label>
+	      <input id="choice2" type="radio" name="read-status" value="yes">
+	    </p>
 
-    </div>
-  </main>
-</body>
+	    <p class="radio-button-container">
+	      <label for="choice1">No</label>
+	      <input id="choice1" type="radio" name="read-status" value="no" checked>
+	    </p>
+	  </div>
+	</fieldset>
+	<div class="buttons">
+	  <button id="cancel" value="cancel">Cancel</button>
+	  <button id="add-to-library" value="default">Add to library</button>
+	</div>
+      </form>
+    </dialog>
+    
+    <main>
+      <div class="card-container"></div>
+    </main>
+  </body>
 </html>

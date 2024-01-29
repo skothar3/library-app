@@ -1,5 +1,5 @@
-/* DOCUMENT {{{*/
-@import url('https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap');
+/* PAGE {{{ */
+@import url("https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -8,20 +8,22 @@
 }
 
 :root {
-  --page-height: max( 100vh, 700px );
-  --section-color: forestgreen;
+  --page-height: max(100vh, 700px);
+  --dialog-width: clamp( 250px, 20vw, 350px );
+  --dialog-height: clamp( 150px, 40vh, 350px );
+  --header-color: forestgreen;
   --main-color: lightgrey;
   --card-color: white;
   --book-item-color: white;
 }
 
 body {
-  font-family: 'Afacad', sans-serif;
+  font-family: Afacad, sans-serif;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 4fr;
   width: 100vw;
-  height: var( --page-height );
+  height: var(--page-height);
   margin: 0;
 }
 
@@ -29,91 +31,184 @@ body {
   visibility: hidden;
 }
 
-/*}}}*/
+/* }}} */
 
-/* SECTION {{{*/
-section {
+/* HEADER {{{ */
+header {
   position: relative;
   grid-row: 1 / 2;
-  background-color: var( --section-color );
+  background-color: var(--header-color);
   border-bottom: 5px solid black;
-  box-shadow: 0px 2px 2px darkgrey;
+  box-shadow: 0 2px 2px darkgrey;
 }
 
-section div#welcome {
+header div#welcome {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-}
-section div#welcome h1 {
-  font-size: clamp( 1.6rem, 3vw, 2.8rem );
-  margin: 2vh 0 2vh 0;
 }
 
-section div#welcome p {
-  font-size: clamp( 1.1rem, 1.8vw, 1.8rem );
+header div#welcome h1 {
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  margin: 2vh 0;
 }
 
-section div#welcome button {
+header div#welcome p {
+  font-size: clamp(1.1rem, 1.8vw, 1.8rem);
+}
+
+header div#welcome button {
   cursor: pointer;
-  width: clamp( 3.5rem, 6vw, 8rem );
+  width: clamp(3.5rem, 6vw, 8rem);
   padding: 0;
   margin-bottom: 1vh;
   border: none;
 }
 
-section div#welcome button svg {
+header div#welcome button svg {
   fill: white;
-  background-color: var( --section-color );
+  background-color: var(--header-color);
   display: block;
   width: 100%;
   color: red;
 }
 
-section div#welcome button svg:hover {
+header div#welcome button svg:hover {
   fill: lightgrey;
 }
 
-section div#welcome button svg:active {
+header div#welcome button svg:active {
   fill: darkgrey;
 }
 
-section div#sort-container {
+header div#sort-container {
   display: flex;
   justify-content: flex-end;
   gap: 1vw;
   margin: 0 2vw 1vw 0;
 }
 
-section label {
+header label {
   font-weight: 500;
 }
 
-section select {
+header select {
   width: 5rem;
 }
-/*}}}*/
 
-/* MAIN {{{*/
+/* }}} */
+
+ /* DIALOG {{{ */
+dialog {
+  width: var( --dialog-width );
+  height: var( --dialog-height );
+  margin-top:  calc( 40vh - calc( var( --dialog-height ) / 2 )  );
+  margin-left: calc( 50vw - calc( var( --dialog-width ) / 2 )  );
+  animation: fade-out 0.7s ease-out;
+}
+
+dialog[open] {
+  animation: fade-in 0.7s ease-out;
+}
+
+dialog[open]::backdrop {
+  animation: backdrop-fade-in 0.7s ease-out forwards;
+}
+
+/* Animation keyframes */
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+    display: block;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+    display: block;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none;
+  }
+}
+
+@keyframes backdrop-fade-in {
+  0% {
+    background-color: rgb(0 0 0 / 0%);
+  }
+
+  100% {
+    background-color: rgb(0 0 0 / 35%);
+  }
+}
+
+/* }}} */
+
+/* FORM {{{ */
+form {
+  font-size: clamp( 1rem, 1.4vw, 1.4rem );
+}
+
+form p.form-element-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2vh;
+}
+
+form div.radios {
+  display: flex;
+  justify-content: space-around;
+}
+
+form div.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2vh;
+}
+
+form div.buttons button {
+  padding: 1vh;
+}
+
+form input.error {
+  border-color: #900;
+  background-color: #fdd;
+}
+
+/* }}} */
+
+/* MAIN {{{ */
 main {
   grid-row: 2 / 3;
-  background-color: var( --main-color );
+  background-color: var(--main-color);
 }
 
 main div.card-container {
   display: grid;
   gap: 2vw;
-  grid-template-columns: repeat( auto-fit, minmax( 280px, 1fr ) );
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-/* MAIN - CARDS {{{*/
+/* MAIN - CARDS {{{ */
 main div.card {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var( --card-color );
-  border-left: 3px solid var( --section-color );
+  background-color: var(--card-color);
+  border-left: 3px solid var(--header-color);
   border-radius: 12px;
   box-shadow: 3px 3px 5px darkgrey;
   height: 25vh;
@@ -130,8 +225,8 @@ main div.card div.new {
   text-align: center;
   width: 2.5rem;
   height: 1.2rem;
-
 }
+
 main div.card p {
   margin-bottom: 0.5rem;
 }
@@ -145,11 +240,11 @@ main div.card p.title {
 }
 
 main div.card p.author::before {
-  content: "By "
+  content: "By ";
 }
 
 main div.card p.pages::after {
-  content: " Pages"
+  content: " Pages";
 }
 
 main div.card div.action {
@@ -197,5 +292,7 @@ main div.card div.action img.trash:hover {
   height: 1.5rem;
   margin-right: 0.4rem;
 }
-/*}}}*/
-/*}}}*/
+
+/* }}} */
+
+/* }}} */

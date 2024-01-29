@@ -1,7 +1,12 @@
 // VARIABLES //{{{
 const addBookBtn = document.querySelector( "button" );
-const addBookP = document.querySelector( "p.hidden" );
-const containerDiv = document.querySelector( "div.card-container" );
+const addBookDialog = document.querySelector( "dialog" );
+const addBookForm = document.querySelector( "form" );
+const formInputs = addBookForm.getElementsByClassName( "to-validate" );
+const addBookConfirmBtn = document.querySelector( "button#add-to-library" );
+const addBookCancelBtn = document.querySelector( "button#cancel" );
+const newBookP = document.querySelector( "div#welcome p.hidden" );
+const libraryDiv = document.querySelector( "div.card-container" );
 const sortSelect = document.getElementById( "sort-by" );
 const myLibrary = [];
 let sortStyle = sortSelect.value;
@@ -11,15 +16,23 @@ const theHobbit = new Book(
 "The Hobbit",
 "J. R. R. Tolkien",
 295,
-'yes',
+"yes",
 false
 );
 
 const harryPotter1 = new Book(
 "Harry Potter and the Philosopher's Stone",
 "J. K. Rowling",
+288,
+"yes",
+false
+);
+
+const harryPotter2 = new Book(
+"Harry Potter and the Chamber of Secrets",
+"J. K. Rowling",
 320,
-'yes',
+"yes",
 false
 );
 
@@ -27,7 +40,7 @@ const liarsPoker = new Book(
 "Liar's Poker",
 "Michael Lewis",
 278,
-'no',
+"no",
 false
 );
 
@@ -35,7 +48,7 @@ const audacityOfHope = new Book(
 "Audacity of Hope",
 "Barack Obama",
 406,
-'no',
+"no",
 false
 );
 
@@ -43,9 +56,26 @@ const daVinciCode = new Book(
 "The DaVinci Code",
 "Dan Brown",
 450,
-'yes',
+"yes",
 false
-);//}}}
+);
+
+const catch22 = new Book(
+"Catch-22",
+"Joseph Heller",
+453,
+"yes",
+false
+)
+//}}}
+
+myLibrary.push( theHobbit );
+myLibrary.push( harryPotter1 );
+myLibrary.push( harryPotter2 );
+myLibrary.push( liarsPoker );
+myLibrary.push( daVinciCode );
+myLibrary.push( audacityOfHope );
+myLibrary.push( catch22 );
 //}}}
 
 // FUNCTIONS {{{
@@ -69,33 +99,36 @@ Book.prototype.toggleRead = function () {//{{{
 }//}}}
 
 function addBook() {//{{{
-  const prompts = [
-    "Enter the book title",
-    "Enter the book author",
-    "Enter the number of pages",
-    "Have you read this book ? (yes/no)",
-  ];
-  let replies = [];
-  let valid;
-  let reply;
+  // const prompts = [
+    // "Enter the book title",
+    // "Enter the book author",
+    // "Enter the number of pages",
+    // "Have you read this book ? (yes/no)",
+  // ];
+  // let replies = [];
+  // let valid;
+  // let reply;
+// 
+  // outerLoop: {
+    // for ( i = 0; i < prompts.length; i++ ) {
+      // valid = false;
+      // while ( !valid ) {
+        // reply = prompt( prompts[i] );
+        // if ( reply ) {
+          // replies[i] = reply;
+          // valid = true;
+        // } else {
+          // break outerLoop;
+        // }
+      // }
+    // }
+  // }
 
-  outerLoop: {
-    for ( i = 0; i < prompts.length; i++ ) {
-      valid = false;
-      while ( !valid ) {
-        reply = prompt( prompts[i] );
-        if ( reply ) {
-          replies[i] = reply;
-          valid = true;
-        } else {
-          break outerLoop;
-        }
-      }
-    }
-  }
+  const bookData = new FormData(addBookForm);
+  let valid = true;
 
   if (valid) {
-    const newBook = new Book( ...replies, true );
+    const newBook = new Book( ...bookData.values(), true );
     if ( !myLibrary.some( ( libraryBook ) => libraryBook.title === newBook.title ) ) {
       myLibrary.push( newBook );
       updateGrid();
@@ -108,15 +141,15 @@ function addBook() {//{{{
 function removeBook( index ) {//{{{
   myLibrary.splice( index, 1 );
   updateGrid();
-};//}}}
+}//}}}
 
-function sortLibrary(sortBy) {//{{{
+function sortLibrary( sortBy ) {//{{{
 
   myLibrary.sort( ( a, b ) => {
     let A;
     let B;
-    if (sortBy === "author" || sortBy === "title") {
-      if (sortBy === "author") {
+    if ( sortBy === "author" || sortBy === "title" ) {
+      if ( sortBy === "author" ) {
 	A = a.author.toUpperCase();
 	B = b.author.toUpperCase();
       } else {
@@ -127,11 +160,11 @@ function sortLibrary(sortBy) {//{{{
       if ( A < B ) return -1;
       if ( A > B ) return 1;
       return 0;
-    } else if (sortBy === "read" || sortBy === "unread") {
+    } else if ( sortBy === "read" || sortBy === "unread" ) {
       A = a.isRead;
       B = b.isRead;
       
-      if (sortBy === "read") {
+      if ( sortBy === "read" ) {
 	if ( A > B ) return -1;
 	if ( A < B ) return 1;
 	return 0;
@@ -140,7 +173,7 @@ function sortLibrary(sortBy) {//{{{
 	if ( A > B ) return 1;
 	return 0;
       }
-    } else if (sortBy === "new") {
+    } else if ( sortBy === "new" ) {
       A = a.isNew;
       B = b.isNew;
 
@@ -149,11 +182,11 @@ function sortLibrary(sortBy) {//{{{
       return 0;
     }
   } );
-};//}}}
+}//}}}
 
 function updateGrid() {//{{{
   const myLibraryCards = [];
-  sortLibrary(sortStyle);
+  sortLibrary( sortStyle );
 
   myLibrary.forEach( ( book, index ) => {
     const card = document.createElement( "div" );
@@ -168,7 +201,7 @@ function updateGrid() {//{{{
     
     title.textContent = book.title;
     author.textContent = book.author;
-    pages.textContent = `${book.pages}`;
+    pages.textContent = `${ book.pages }`;
     newTag.textContent = "New!";
     trash.src = "./trash.svg";
     
@@ -202,7 +235,7 @@ function updateGrid() {//{{{
       newTag.classList.add( "hidden" );
     }
     
-    myLibraryCards.push(card);
+    myLibraryCards.push( card );
     
     readStatusSign.addEventListener("mouseenter", function () {
       this.classList.add( "hovered" );
@@ -215,10 +248,10 @@ function updateGrid() {//{{{
     readStatusSign.addEventListener( "click", function () {
       if ( this.classList.contains( "read" ) ) {
 	this.classList.remove( "read" );
-	this.parentElement.getElementsByClassName("read-status").textContent = "Not read yet" ;
+	this.parentElement.getElementsByClassName( "read-status" ).textContent = "Not read yet" ;
       } else {
 	this.classList.add( "read" );
-	this.parentElement.getElementsByClassName("read-status").textContent = "Read" ;
+	this.parentElement.getElementsByClassName( "read-status" ).textContent = "Read" ;
       }
       this.classList.remove( "hovered" );
       book.toggleRead();
@@ -229,31 +262,75 @@ function updateGrid() {//{{{
       removeBook( index );
     } );
     
-    myLibraryCards.push(card);
+    myLibraryCards.push( card );
   } )
 
-  containerDiv.replaceChildren(...myLibraryCards);
-};//}}}
+  libraryDiv.replaceChildren( ...myLibraryCards );
+}//}}}
+
+function handleValidation( element ) {//{{{
+  element.classList.add( "error" );
+  if ( element.validity.valueMissing ) {
+    element.setCustomValidity( `This is a required field` );
+  } else if ( element.validity.tooShort ) {
+    element.setCustomValidity( `Your input is too short` );
+  } else if ( element.validity.patternMismatch ) {
+    element.setCustomValidity( `Your input is invalid` );
+  } else if ( element.validity.typeMismatch ) {
+    element.setCustomValidity( `Your input is invalid` );
+  } else {
+    element.setCustomValidity( "" );
+    element.classList.remove( "error" );
+  }
+  element.reportValidity();
+}//}}}
 
 //}}}
 
 // LISTENERS {{{
-addBookBtn.addEventListener( "click", addBook );
+document.addEventListener( "DOMContentLoaded", updateGrid );
 
-addBookBtn.addEventListener( "mouseenter", () => addBookP.classList.remove( "hidden" ) );
+addBookBtn.addEventListener( "click", () => {
+  addBookDialog.showModal();
+} );
 
-addBookBtn.addEventListener( "mouseleave", () => addBookP.classList.add( "hidden" ) );
+addBookBtn.addEventListener( "mouseenter", () => newBookP.classList.remove( "hidden" ) );
+
+addBookBtn.addEventListener( "mouseleave", () => newBookP.classList.add( "hidden" ) );
 
 sortSelect.addEventListener( "change", function () {
   sortStyle = this.value;
   updateGrid();
 });
+
+addBookDialog.addEventListener( "close", () => {
+  addBookForm.reset();
+} );
+
+for (const input of formInputs) {
+  input.addEventListener( "input", function () { handleValidation(this) } );
+}
+
+addBookCancelBtn.addEventListener ( "click", ( e ) => {
+  e.preventDefault();
+  for ( const input of formInputs ) {
+    // input.setCustomValidity( "" );
+    input.classList.remove( "error" );
+  }
+  addBookForm.reset();
+  addBookDialog.close();
+} )
+
+addBookConfirmBtn.addEventListener( "click", ( e ) => {
+  e.preventDefault();
+
+  if ( addBookForm.checkValidity() ) {
+    addBook();
+    addBookDialog.close();
+  } else {
+    for ( const input of formInputs ) {
+      handleValidation( input );
+    }
+  }
+}, false );
 //}}}
-
-myLibrary.push( theHobbit );
-myLibrary.push( harryPotter1 );
-myLibrary.push( liarsPoker );
-myLibrary.push( daVinciCode );
-myLibrary.push( audacityOfHope );
-
-updateGrid();
